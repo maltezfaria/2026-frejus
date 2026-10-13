@@ -242,7 +242,7 @@ $ cd 2026-frejus
 		      \begin{minted}[fontsize=\footnotesize]{text}
 $ julia --project -e 'using Pkg; Pkg.instantiate()'
 		      \end{minted}
-		      {\small Precompiling takes a few minutes: let it run while we start}
+			      {\small Precompiling takes a few minutes: let it run while we start}
 		\item Start Julia with threads
 		      \begin{minted}[fontsize=\footnotesize]{text}
 $ julia --project -t auto
@@ -265,14 +265,14 @@ $ julia --project -t auto
 	\renewcommand{\arraystretch}{1.3}
 	\setlength{\tabcolsep}{4pt}
 	\begin{tabular}{l l l l}
-		\textbf{Paradigm}     & \textbf{Memory} & \textbf{Julia tools}                             & \textbf{When} \\
+		\textbf{Paradigm}     & \textbf{Memory} & \textbf{Julia tools}                          & \textbf{When} \\
 		\hline
 		\rowcolor{structure!10}
-		Asynchronous tasks    & shared          & \texttt{Task}, \texttt{Channel}, \ldots          & \alert{today} \\
+		Asynchronous tasks    & shared          & \texttt{Task}, \texttt{Channel}, \ldots       & \alert{today} \\
 		\rowcolor{structure!10}
 		Multi-threading       & shared          & \texttt{@threads}, \texttt{@spawn}, locks     & \alert{today} \\
-		GPU computing         & device          & \texttt{CUDA.jl}, \texttt{AMDGPU.jl}, \ldots     & Wednesday     \\
-		Distributed computing & distributed     & \texttt{Distributed}, \texttt{MPI.jl}, \ldots    & Friday        \\
+		GPU computing         & device          & \texttt{CUDA.jl}, \texttt{AMDGPU.jl}, \ldots  & Wednesday     \\
+		Distributed computing & distributed     & \texttt{Distributed}, \texttt{MPI.jl}, \ldots & Friday        \\
 	\end{tabular}
 
 	\vfill
@@ -321,7 +321,7 @@ $ julia --project -t auto
 
 	\medskip
 	\begin{tabular}{l}
-		\textcolor{green!50!black}{\cmark} \textbf{No explicit communication}                \\
+		\textcolor{green!50!black}{\cmark} \textbf{No explicit communication}              \\
 		\textcolor{red}{\xmark} \textbf{Synchronization is your job} (\alert{data races!}) \\
 	\end{tabular}
 
@@ -562,12 +562,12 @@ As = [rand(2000, 2000) for _ in 1:10]
 	\begin{columns}[T]
 		\begin{column}{0.55\textwidth}
 			\begin{overlayarea}{\linewidth}{3.4cm}
-			\begin{minted}{julia}
+				\begin{minted}{julia}
 As = [rand(2000, 2000) for _ in 1:N]
 Fs = Vector{Any}(undef, N)
 			\end{minted}
-			\begin{onlyenv}<1>
-				\begin{minted}{julia}
+				\begin{onlyenv}<1>
+					\begin{minted}{julia}
 ts = Task[]
 for i in 1:N
     t = @spawn Fs[i] = lu(As[i])
@@ -575,14 +575,14 @@ for i in 1:N
 end
 waitall(ts)
 				\end{minted}
-			\end{onlyenv}
-			\begin{onlyenv}<2>
-				\begin{minted}{julia}
+				\end{onlyenv}
+				\begin{onlyenv}<2>
+					\begin{minted}{julia}
 @sync for i in 1:N
     @spawn Fs[i] = lu(As[i])
 end
 				\end{minted}
-			\end{onlyenv}
+				\end{onlyenv}
 			\end{overlayarea}
 		\end{column}
 		\begin{column}{0.43\textwidth}
@@ -751,9 +751,9 @@ end
 	\small
 	\renewcommand{\arraystretch}{1.3}
 	\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{9.2cm}@{}}
-		\texttt{:dynamic} & default: \(\sim\)\texttt{nthreads()} contiguous chunks \\
+		\texttt{:dynamic} & default: \(\sim\)\texttt{nthreads()} contiguous chunks                                           \\
 		\texttt{:greedy}  & \texttt{nthreads()} tasks, each takes the \alert{next item} when free: uneven work, any iterator \\
-		\texttt{:static}  & one task \alert{pinned} per thread: \texttt{threadid()} constant; cannot be nested, discouraged \\
+		\texttt{:static}  & one task \alert{pinned} per thread: \texttt{threadid()} constant; cannot be nested, discouraged  \\
 	\end{tabular}
 
 	\vfill
@@ -1004,7 +1004,7 @@ end
 			\medskip
 			\small
 			\begin{tabular}{ll}
-				\texttt{-t 1} & exact \cmark                                \\
+				\texttt{-t 1} & exact \cmark                      \\
 				\texttt{-t 4} & 3--8\,\% too small, varies \xmark \\
 			\end{tabular}
 		\end{column}
@@ -1147,10 +1147,10 @@ end
 		\small
 		\renewcommand{\arraystretch}{1.3}
 		\begin{tabular}{c l l}
-			\textbf{1} & \(A_{11} = L_{11} U_{11}\)                    & \texttt{lu!}             \\
-			\textbf{2} & \(U_{12} = L_{11}^{-1} A_{12}\)               & \texttt{ldiv!}           \\
-			\textbf{3} & \(L_{21} = A_{21} U_{11}^{-1}\)               & \texttt{rdiv!}           \\
-			\textbf{4} & \(L_{22} U_{22} = A_{22} - L_{21} U_{12}\)    & \texttt{mul!}, \texttt{lu!} \\
+			\textbf{1} & \(A_{11} = L_{11} U_{11}\)                 & \texttt{lu!}                \\
+			\textbf{2} & \(U_{12} = L_{11}^{-1} A_{12}\)            & \texttt{ldiv!}              \\
+			\textbf{3} & \(L_{21} = A_{21} U_{11}^{-1}\)            & \texttt{rdiv!}              \\
+			\textbf{4} & \(L_{22} U_{22} = A_{22} - L_{21} U_{12}\) & \texttt{mul!}, \texttt{lu!} \\
 		\end{tabular}
 
 		\column{0.2\textwidth}
@@ -1430,7 +1430,7 @@ end
 		\lugraph
 		\node[draw=structure, very thick, circle, minimum size=0.85cm] at (L2) {};
 		\node[text=structure, font=\footnotesize, align=left, anchor=west] at (3.3,2.3)
-			{\texttt{lu!} of 22 starts as soon as 22 is updated,\\ while 23, 32, 33 are still updating};
+		{\texttt{lu!} of 22 starts as soon as 22 is updated,\\ while 23, 32, 33 are still updating};
 	\end{tikzpicture}
 
 	\vfill
@@ -1497,7 +1497,7 @@ waitall(W)
 		\item \texttt{Task} dependencies inferred from \alert{data} annotations: \texttt{@R}, \texttt{@W}, \texttt{@RW}
 		\item Simple API: the \texttt{@dspawn} macro
 	\end{itemize}
-	\hfill{\scriptsize\color{gray} In the spirit of StarPU, PaRSEC (not in ambition!)}
+	{\scriptsize\color{gray} Joint work with François Févotte}\hfill{\scriptsize\color{gray} In the spirit of StarPU, PaRSEC (not in ambition!)}
 
 	\begin{columns}[T]
 		\begin{column}{0.36\textwidth}
@@ -1558,27 +1558,27 @@ end
 	\begin{columns}[T]
 		\begin{column}{0.78\textwidth}
 			\begin{overlayarea}{\linewidth}{3cm}
-			\textbf{\only<1>{Sequential}\only<2>{Synchronizing tasks with return values}\only<3>{Synchronizing tasks with explicit waits}}
-			\begin{onlyenv}<1>
-				\begin{minted}{julia}
+				\textbf{\only<1>{Sequential}\only<2>{Synchronizing tasks with return values}\only<3>{Synchronizing tasks with explicit waits}}
+				\begin{onlyenv}<1>
+					\begin{minted}{julia}
                       # task
 b = zeros(4)          # 1: initialization
 b[1:2] .+= 2          # 2: first half
 b[3:4] .+= 3          # 3: second half
 res = A \ b           # 4: entire vector
 				\end{minted}
-			\end{onlyenv}
-			\begin{onlyenv}<2>
-				\begin{minted}{julia}
+				\end{onlyenv}
+				\begin{onlyenv}<2>
+					\begin{minted}{julia}
 t1 = @spawn zeros(4)                        # 1
 t2 = @spawn (b = fetch(t1); b[1:2] .+ 2)    # 2
 t3 = @spawn (b = fetch(t1); b[3:4] .+ 3)    # 3
 t4 = @spawn A \ vcat(fetch(t2), fetch(t3))  # 4
 fetch(t4) # get result
 				\end{minted}
-			\end{onlyenv}
-			\begin{onlyenv}<3>
-				\begin{minted}{julia}
+				\end{onlyenv}
+				\begin{onlyenv}<3>
+					\begin{minted}{julia}
 b = Vector{Float64}(undef, 4)
 t1 = @spawn fill!(b, 0)                     # 1
 t2 = @spawn (wait(t1); view(b,1:2) .+= 2)   # 2
@@ -1586,7 +1586,7 @@ t3 = @spawn (wait(t1); view(b,3:4) .+= 3)   # 3
 t4 = @spawn (wait(t2); wait(t3); A \ b)     # 4
 fetch(t4) # get result
 				\end{minted}
-			\end{onlyenv}
+				\end{onlyenv}
 			\end{overlayarea}
 		\end{column}
 		\begin{column}{0.2\textwidth}
@@ -1629,77 +1629,77 @@ fetch(t4)
 
 \begin{frame}[fragile]
 
-\frametitle{Basic idea}
-\begin{enumerate}
-    \item \textcolor<4->{lightgray}{Extract data dependency from user annotations}
-    \item \textcolor<1-3,10->{lightgray}{Infer task dependency from data dependency}
-    \item \textcolor<1-9>{lightgray}{Schedule tasks with inferred dependencies}
-\end{enumerate}
+	\frametitle{Basic idea}
+	\begin{enumerate}
+		\item \textcolor<4->{lightgray}{Extract data dependency from user annotations}
+		\item \textcolor<1-3,10->{lightgray}{Infer task dependency from data dependency}
+		\item \textcolor<1-9>{lightgray}{Schedule tasks with inferred dependencies}
+	\end{enumerate}
 
-\center
-\begin{tikzpicture}[scale=0.9, every node/.style={transform shape}]
-  % Tasks
-  \node<2->[dnode, minimum size=0.6cm] (1) at (0,  0) {1};
-  \node<2>[dnode, minimum size=0.6cm, fill=orange!60] at (0,  0) {1};
-  \node<4,6,9>[dnode, minimum size=0.6cm, fill=yellow!40] at (0,  0) {1};
-  
-  \node<3->[dnode, minimum size=0.6cm] (2) at (2,  1) {2};
-  \node<3-4>[dnode, minimum size=0.6cm, fill=orange!60] at (2,  1) {2};
-  \node<5,8>[dnode, minimum size=0.6cm, fill=yellow!40] at (2,  1) {2};
-  
-  \node<5->[dnode, minimum size=0.6cm] (3) at (2, -1) {3};
-  \node<5-6>[dnode, minimum size=0.6cm, fill=orange!60] at (2, -1) {3};
-  \node<7>[dnode, minimum size=0.6cm, fill=yellow!40] at (2, -1) {3};
+	\center
+	\begin{tikzpicture}[scale=0.9, every node/.style={transform shape}]
+		% Tasks
+		\node<2->[dnode, minimum size=0.6cm] (1) at (0,  0) {1};
+		\node<2>[dnode, minimum size=0.6cm, fill=orange!60] at (0,  0) {1};
+		\node<4,6,9>[dnode, minimum size=0.6cm, fill=yellow!40] at (0,  0) {1};
 
-  \node<7->[dnode, minimum size=0.6cm, fill=orange!60] (4) at (4,  0) {4};
-  
-  % Data
-  \node<1->[rectangle, draw, fill=gray!15, anchor=west] (A)  at (-3.5,  0) {\texttt{b}};
-  \node<3->[rectangle, draw, fill=gray!15, anchor=west] (A1) at (-3.5,  1) {\texttt{view(b,1:2)}};
-  \node<5->[rectangle, draw, fill=gray!15, anchor=west] (A2) at (-3.5, -1) {\texttt{view(b,3:4)}};
-  
-  % Task -> Data dependencies
-  \draw<2->[->, dashed] (1) -- node[midway, below]{\scriptsize\ttfamily W} (A);
-  \draw<3->[->, dashed] (2) -- node[midway, above]{\scriptsize\ttfamily RW} (A1) ;
-  \draw<5->[->, dashed] (3) -- node[midway, above]{\scriptsize\ttfamily RW} (A2);
-  \draw<7-> (4) edge[out=170, in=5, dashed, ->] node[pos=0.87, above]{\scriptsize\ttfamily R} (A.north east);
-  
-  % Task -> Task dependencies
-  \draw<4->[->, thick] (1) -- (2);
-  \draw<6->[->, thick] (1) -- (3);
-  \draw<8->[->, thick] (2) -- (4);
-  \draw<7->[->, thick] (3) -- (4);
-  
-  % Data <-> Data dependencies
-  \draw<1-> (A.west)  ++(-0.5,0) node (Aw)  {};
-  \draw<3-> (A1.west) ++(-0.5,0) node (A1w) {};
-  \draw<5-> (A2.west) ++(-0.5,0) node (A2w) {};
-  \draw<4,8>[<->, thick, red] (A.west)  -- (Aw.center)
-  -- node[midway,left,text width=8em,align=center]{\scriptsize\ttfamily memory\_overlap(...) = true} (A1w.center) -- (A1.west);
-  \draw<6,7>[<->, thick, red] (A.west)  -- (Aw.center)
-  -- node[midway,left,text width=8em,align=center]{\scriptsize\ttfamily memory\_overlap(...) = true} (A2w.center) -- (A2.west);
-  \draw<5>[<->, thick, themegreen] (A1.west) -- (A1w.center)
-  -- node[midway,left,text width=8em,align=center]{\scriptsize\ttfamily memory\_overlap(...) = false} (A2w.center) -- (A2.west);
-  \draw<9>[<->, thick, red] (A.south west) -- ++(-0.5,0) |- (A.north west);
+		\node<3->[dnode, minimum size=0.6cm] (2) at (2,  1) {2};
+		\node<3-4>[dnode, minimum size=0.6cm, fill=orange!60] at (2,  1) {2};
+		\node<5,8>[dnode, minimum size=0.6cm, fill=yellow!40] at (2,  1) {2};
 
-  % Legend
-  \begin{scope}[font=\scriptsize, lg/.style={dnode, minimum size=0.25cm}]
-    \node[lg, fill=orange!60] at (-7.0,-1.75) {}; \node[anchor=west] at (-6.85,-1.75) {new task};
-    \node[lg, fill=yellow!40] at (-5.3,-1.75) {}; \node[anchor=west] at (-5.15,-1.75) {compared with};
-    \node[draw, fill=gray!15, minimum size=0.25cm, inner sep=0pt] at (-2.85,-1.75) {}; \node[anchor=west] at (-2.7,-1.75) {data};
-    \draw[->, dashed] (-1.75,-1.75) -- (-1.2,-1.75); \node[anchor=west] at (-1.15,-1.75) {access};
-    \draw[->, thick] (0.1,-1.75) -- (0.65,-1.75); \node[anchor=west] at (0.7,-1.75) {dependency};
-  \end{scope}
+		\node<5->[dnode, minimum size=0.6cm] (3) at (2, -1) {3};
+		\node<5-6>[dnode, minimum size=0.6cm, fill=orange!60] at (2, -1) {3};
+		\node<7>[dnode, minimum size=0.6cm, fill=yellow!40] at (2, -1) {3};
 
-  % Bounding box
-  \node at (-7.3,-1.3) {};
-  \node at (4.5,1.3) {};
-\end{tikzpicture}
+		\node<7->[dnode, minimum size=0.6cm, fill=orange!60] (4) at (4,  0) {4};
 
-\begin{columns}[T]
-  \column{0.42\textwidth}
-\textbf{User-written code}
-\begin{minted}[fontsize=\footnotesize,escapeinside=||,beameroverlays=true]{julia}
+		% Data
+		\node<1->[rectangle, draw, fill=gray!15, anchor=west] (A)  at (-3.5,  0) {\texttt{b}};
+		\node<3->[rectangle, draw, fill=gray!15, anchor=west] (A1) at (-3.5,  1) {\texttt{view(b,1:2)}};
+		\node<5->[rectangle, draw, fill=gray!15, anchor=west] (A2) at (-3.5, -1) {\texttt{view(b,3:4)}};
+
+		% Task -> Data dependencies
+		\draw<2->[->, dashed] (1) -- node[midway, below]{\scriptsize\ttfamily W} (A);
+		\draw<3->[->, dashed] (2) -- node[midway, above]{\scriptsize\ttfamily RW} (A1) ;
+		\draw<5->[->, dashed] (3) -- node[midway, above]{\scriptsize\ttfamily RW} (A2);
+		\draw<7-> (4) edge[out=170, in=5, dashed, ->] node[pos=0.87, above]{\scriptsize\ttfamily R} (A.north east);
+
+		% Task -> Task dependencies
+		\draw<4->[->, thick] (1) -- (2);
+		\draw<6->[->, thick] (1) -- (3);
+		\draw<8->[->, thick] (2) -- (4);
+		\draw<7->[->, thick] (3) -- (4);
+
+		% Data <-> Data dependencies
+		\draw<1-> (A.west)  ++(-0.5,0) node (Aw)  {};
+		\draw<3-> (A1.west) ++(-0.5,0) node (A1w) {};
+		\draw<5-> (A2.west) ++(-0.5,0) node (A2w) {};
+		\draw<4,8>[<->, thick, red] (A.west)  -- (Aw.center)
+			-- node[midway,left,text width=8em,align=center]{\scriptsize\ttfamily memory\_overlap(...) = true} (A1w.center) -- (A1.west);
+		\draw<6,7>[<->, thick, red] (A.west)  -- (Aw.center)
+			-- node[midway,left,text width=8em,align=center]{\scriptsize\ttfamily memory\_overlap(...) = true} (A2w.center) -- (A2.west);
+		\draw<5>[<->, thick, themegreen] (A1.west) -- (A1w.center)
+			-- node[midway,left,text width=8em,align=center]{\scriptsize\ttfamily memory\_overlap(...) = false} (A2w.center) -- (A2.west);
+		\draw<9>[<->, thick, red] (A.south west) -- ++(-0.5,0) |- (A.north west);
+
+		% Legend
+		\begin{scope}[font=\scriptsize, lg/.style={dnode, minimum size=0.25cm}]
+			\node[lg, fill=orange!60] at (-7.0,-1.75) {}; \node[anchor=west] at (-6.85,-1.75) {new task};
+			\node[lg, fill=yellow!40] at (-5.3,-1.75) {}; \node[anchor=west] at (-5.15,-1.75) {compared with};
+			\node[draw, fill=gray!15, minimum size=0.25cm, inner sep=0pt] at (-2.85,-1.75) {}; \node[anchor=west] at (-2.7,-1.75) {data};
+			\draw[->, dashed] (-1.75,-1.75) -- (-1.2,-1.75); \node[anchor=west] at (-1.15,-1.75) {access};
+			\draw[->, thick] (0.1,-1.75) -- (0.65,-1.75); \node[anchor=west] at (0.7,-1.75) {dependency};
+		\end{scope}
+
+		% Bounding box
+		\node at (-7.3,-1.3) {};
+		\node at (4.5,1.3) {};
+	\end{tikzpicture}
+
+	\begin{columns}[T]
+		\column{0.42\textwidth}
+		\textbf{User-written code}
+		\begin{minted}[fontsize=\footnotesize,escapeinside=||,beameroverlays=true]{julia}
 |\onslide<1->|b = rand(4)
 |\onslide<2->|@dspawn fill!(@W(b),0)
 |\onslide<3->|@dspawn @RW(view(b,1:2)) .+= 2
@@ -1707,11 +1707,11 @@ fetch(t4)
 |\onslide<7->|t4 = @dspawn A \ @R(b)
 |\onslide<7->|fetch(t4)|\onslide<1->|
 \end{minted}
-  
-  \column{0.50\textwidth}
-\begin{onlyenv}<4-9>
-\textbf{Behind the scenes: DAG}
-\begin{minted}[fontsize=\footnotesize,escapeinside=||]{julia}
+
+		\column{0.50\textwidth}
+		\begin{onlyenv}<4-9>
+			\textbf{Behind the scenes: DAG}
+			\begin{minted}[fontsize=\footnotesize,escapeinside=||]{julia}
 # Note the quadratic complexity!
 for i in 1:N, j in i-1:-1:1
   # Detect conflict between i and j
@@ -1719,19 +1719,19 @@ for i in 1:N, j in i-1:-1:1
     if memory_overlap(di, dj)
       add_edge(j, i)
 \end{minted}
-\end{onlyenv}
-\begin{onlyenv}<10>
-\textbf{Behind the scenes: scheduling}
-\begin{minted}[fontsize=\footnotesize]{julia}
+		\end{onlyenv}
+		\begin{onlyenv}<10>
+			\textbf{Behind the scenes: scheduling}
+			\begin{minted}[fontsize=\footnotesize]{julia}
 t4 = @spawn begin
   wait(t2); wait(t3)
   A \ b
 end
 \end{minted}
-\end{onlyenv}
-\end{columns}
+		\end{onlyenv}
+	\end{columns}
 
-% \alert{Note the quadratic complexity in the number of tasks!}
+	% \alert{Note the quadratic complexity in the number of tasks!}
 
 \end{frame}
 
@@ -1934,11 +1934,11 @@ end
 
 			\medskip
 			\begin{overlayarea}{\linewidth}{1.6cm}
-			\raggedright\small
-			\only<1>{\textbf{1. Insert}, under the lock:\\ \texttt{deps} \(=\) \{2, 3\}, found from the \alert{data}}%
-			\only<2>{\textbf{2. Wait} for \alert{all} \texttt{deps}, even if one fails}%
-			\only<3>{\textbf{3. Run} the code: 2 and 3 are done}%
-			\only<4>{\textbf{4. Report} in \texttt{finally}: always, even on error; the cleaner removes 4}
+				\raggedright\small
+				\only<1>{\textbf{1. Insert}, under the lock:\\ \texttt{deps} \(=\) \{2, 3\}, found from the \alert{data}}%
+				\only<2>{\textbf{2. Wait} for \alert{all} \texttt{deps}, even if one fails}%
+				\only<3>{\textbf{3. Run} the code: 2 and 3 are done}%
+				\only<4>{\textbf{4. Report} in \texttt{finally}: always, even on error; the cleaner removes 4}
 			\end{overlayarea}
 		\end{column}
 	\end{columns}
@@ -2087,41 +2087,41 @@ end
 				\foreach \x in {0,...,3} {\node[slot] (s\x) at (\x,0) {};}
 				% step 1: room, the new task enters
 				\only<1>{
-					\node[tk] at (s0) {1}; \node[tk] at (s1) {2};
-					\node[new] (n) at (s2) {3};
-					\node[font=\scriptsize] (sp) at (2,-1.5) {\texttt{@dspawn}};
-					\draw[->, thick, orange] (sp) -- (n);
-				}
+						\node[tk] at (s0) {1}; \node[tk] at (s1) {2};
+						\node[new] (n) at (s2) {3};
+						\node[font=\scriptsize] (sp) at (2,-1.5) {\texttt{@dspawn}};
+						\draw[->, thick, orange] (sp) -- (n);
+					}
 				% step 2: full, the new task waits
 				\only<2>{
-					\foreach \x/\t in {0/1,1/2,2/3,3/4} {\node[tk] at (s\x) {\t};}
-					\node[wt] (w) at (1.5,-1.5) {5};
-					\node[font=\scriptsize, text=orange!80!black, anchor=west] at (w.east) {\texttt{wait(cond\_push)}};
-				}
+						\foreach \x/\t in {0/1,1/2,2/3,3/4} {\node[tk] at (s\x) {\t};}
+						\node[wt] (w) at (1.5,-1.5) {5};
+						\node[font=\scriptsize, text=orange!80!black, anchor=west] at (w.east) {\texttt{wait(cond\_push)}};
+					}
 				% step 3: a task leaves, one waiter is woken
 				\only<3>{
-					\node[gone] (g) at (-0.2,1.5) {1};
-					\draw[->, thick, gray] (s0) -- (g);
-					\node[font=\scriptsize, text=gray, anchor=west] at (g.east) {cleaner: \texttt{remove\_node!}};
-					\foreach \x/\t in {1/2,2/3,3/4} {\node[tk] at (s\x) {\t};}
-					\node[new] (w) at (1.5,-1.5) {5};
-					\draw[->, thick, orange] (w) -- node[right, font=\scriptsize] {\texttt{notify}: one} (s0);
-				}
+						\node[gone] (g) at (-0.2,1.5) {1};
+						\draw[->, thick, gray] (s0) -- (g);
+						\node[font=\scriptsize, text=gray, anchor=west] at (g.east) {cleaner: \texttt{remove\_node!}};
+						\foreach \x/\t in {1/2,2/3,3/4} {\node[tk] at (s\x) {\t};}
+						\node[new] (w) at (1.5,-1.5) {5};
+						\draw[->, thick, orange] (w) -- node[right, font=\scriptsize] {\texttt{notify}: one} (s0);
+					}
 				% step 4: empty
 				\only<4>{
-					\node[font=\scriptsize, text=orange!80!black] at (1.5,-1.5) {\texttt{wait(tg)} returns};
-					\draw[->, thick, orange] (1.5,-1.2) -- (1.5,-0.5);
-				}
+						\node[font=\scriptsize, text=orange!80!black] at (1.5,-1.5) {\texttt{wait(tg)} returns};
+						\draw[->, thick, orange] (1.5,-1.2) -- (1.5,-0.5);
+					}
 				\useasboundingbox (-0.6,-1.9) rectangle (3.6,1.9);
 			\end{tikzpicture}
 
 			\medskip
 			\begin{overlayarea}{\linewidth}{1.9cm}
-			\raggedright\small
-			\only<1>{\textbf{1. Room}: insert, then find the edges\\ {\footnotesize newest to oldest; skip read/read and tasks already reachable}}%
-			\only<2>{\textbf{2. Full}: \texttt{@dspawn} \alert{waits}; \texttt{wait} releases the lock}%
-			\only<3>{\textbf{3. Removal}: room for one \(\Rightarrow\) wake \alert{one} waiter}%
-			\only<4>{\textbf{4. Empty}: wake \texttt{wait(tg)}}%
+				\raggedright\small
+				\only<1>{\textbf{1. Room}: insert, then find the edges\\ {\footnotesize newest to oldest; skip read/read and tasks already reachable}}%
+				\only<2>{\textbf{2. Full}: \texttt{@dspawn} \alert{waits}; \texttt{wait} releases the lock}%
+				\only<3>{\textbf{3. Removal}: room for one \(\Rightarrow\) wake \alert{one} waiter}%
+				\only<4>{\textbf{4. Empty}: wake \texttt{wait(tg)}}%
 			\end{overlayarea}
 		\end{column}
 	\end{columns}
@@ -2137,14 +2137,14 @@ end
 	\renewcommand{\arraystretch}{1.5}
 	\small
 	\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{6.3cm}@{}}
-		\textbf{Part 1 primitive}                           & \textbf{inside \DFT}                                        \\
+		\textbf{Part 1 primitive}                         & \textbf{inside \DFT}                                                    \\
 		\hline
-		\texttt{Task}, \texttt{sticky}, pools               & \texttt{@dspawn} on \texttt{:default}; cleaner on \texttt{:interactive} \\
-		\texttt{wait} / \texttt{waitall}                    & a task waits for its dependencies                           \\
-		\texttt{lock}                                       & insertion in the \texttt{DAG}                               \\
-		\texttt{Condition}: \texttt{wait}/\texttt{notify}   & \texttt{DAG} full: \texttt{@dspawn} waits; empty: \texttt{wait(tg)} \\
-		\texttt{Channel}: \texttt{put!}/\texttt{take!}      & finished tasks \(\to\) the cleaner                          \\
-		atomics                                             & task counter (\texttt{tag})                                 \\
+		\texttt{Task}, \texttt{sticky}, pools             & \texttt{@dspawn} on \texttt{:default}; cleaner on \texttt{:interactive} \\
+		\texttt{wait} / \texttt{waitall}                  & a task waits for its dependencies                                       \\
+		\texttt{lock}                                     & insertion in the \texttt{DAG}                                           \\
+		\texttt{Condition}: \texttt{wait}/\texttt{notify} & \texttt{DAG} full: \texttt{@dspawn} waits; empty: \texttt{wait(tg)}     \\
+		\texttt{Channel}: \texttt{put!}/\texttt{take!}    & finished tasks \(\to\) the cleaner                                      \\
+		atomics                                           & task counter (\texttt{tag})                                             \\
 	\end{tabular}
 
 	\vfill
@@ -2220,7 +2220,7 @@ end
 	\begin{tikzpicture}[lugraph, scale=0.62, every node/.style={transform shape}, c/.style={e}]
 		\lugraph
 		\node[text=structure, font=\footnotesize, align=left, anchor=west] at (2.6,-2.3)
-			{\texttt{@R(T[3,1])}, \texttt{@R(T[1,3])}, \texttt{@RW(T[3,3])}};
+		{\texttt{@R(T[3,1])}, \texttt{@R(T[1,3])}, \texttt{@RW(T[3,3])}};
 		\draw[->, structure, thick] (2.55,-2.3) -- (M33);
 	\end{tikzpicture}
 \end{frame}
@@ -2234,14 +2234,14 @@ log_info = DFT.@log lu_dft!(T)  # 16x16 tiles, 8 threads
 DFT.describe(log_info; categories = ["lu", "ldiv", "rdiv", "mul"])
 	\end{minted}
 	\begin{minted}[fontsize=\scriptsize]{text}
-* Elapsed time                  : 0.176
-  +- Longest path               : 0.063
-  +- No-wait (running / workers): 0.148
-* Worker time (8 x elapsed)     : 1.410
-  +- Running tasks              : 1.188  (84.2%)
-  |  +- lu   : 0.040   ldiv : 0.079   rdiv : 0.069   mul : 0.999
-  +- Idle                       : 0.222  (15.8%)
-* Task insertion                : 0.010  (5.5% of elapsed)
+* Elapsed time                  : 0.166
+  +- Longest path               : 0.060
+  +- No-wait (running / workers): 0.146
+* Worker time (8 x elapsed)     : 1.326
+  +- Running tasks              : 1.167  (88.0%)
+  |  +- lu   : 0.037   ldiv : 0.076   rdiv : 0.071   mul : 0.982
+  +- Idle                       : 0.160  (12.0%)
+* Task insertion                : 0.010  (5.9% of elapsed)
 	\end{minted}
 
 	\begin{itemize}
@@ -2397,6 +2397,7 @@ U, V = V, U  # the task body may see the swapped names!
 				\item DataFrames.jl: threaded \texttt{ByRow}
 				\item SparseArrays.jl: threaded \texttt{sparse(I,J,V)}
 				\item \texttt{@dspawn} on DataFrames pipelines
+				\item Task graph for \texttt{Hmatrices.jl}
 			\end{itemize}
 		\end{column}
 	\end{columns}
@@ -2478,13 +2479,13 @@ U, V = V, U  # the task body may see the swapped names!
 	\centering
 	\renewcommand{\arraystretch}{1.3}
 	\begin{tabular}{l l l}
-		                   & \textbf{OS thread} & \textbf{Julia task}                                 \\
+		                  & \textbf{OS thread} & \textbf{Julia task}                \\
 		\hline
-		Scheduled by       & kernel             & Julia runtime (user space)                          \\
-		Memory             & \(\sim\)MB stack   & \(\sim\)KB                                          \\
-		Switch cost        & kernel call        & cheap (user space)                                  \\
-		Interruption       & \alert{preemptive} & \alert{cooperative} (yield points)                  \\
-		Reasonable number  & \(\sim\)\#cores    & \(10^3\)--\(10^6\)                                  \\
+		Scheduled by      & kernel             & Julia runtime (user space)         \\
+		Memory            & \(\sim\)MB stack   & \(\sim\)KB                         \\
+		Switch cost       & kernel call        & cheap (user space)                 \\
+		Interruption      & \alert{preemptive} & \alert{cooperative} (yield points) \\
+		Reasonable number & \(\sim\)\#cores    & \(10^3\)--\(10^6\)                 \\
 	\end{tabular}
 
 	\vfill
@@ -2568,30 +2569,30 @@ ld = sum(fetch.(ts))
 					hd/.style={font=\small\ttfamily\bfseries, text=structure}]
 				\foreach \c [count=\j from 0] in {\(\varnothing\),A,G,C,A,T} {\node[hd] at (\j,1) {\c};}
 				\foreach \c [count=\i from 0] in {\(\varnothing\),G,A,C} {\node[hd] at (-1,-\i) {\c};}
-		\node[cell] at (0,0) {0};
-		\node[cell] at (1,0) {0};
-		\node[cell] at (2,0) {0};
-		\node[cell] at (3,0) {0};
-		\node[cell] at (4,0) {0};
-		\node[cell] at (5,0) {0};
-		\node[cell] at (0,-1) {0};
-		\node[cell] at (1,-1) {0};
-		\node[cell] at (2,-1) {1};
-		\node[cell] at (3,-1) {1};
-		\node[cell] at (4,-1) {1};
-		\node[cell] at (5,-1) {1};
-		\node[cell] at (0,-2) {0};
-		\node[cell] at (1,-2) {1};
-		\node[cell] at (2,-2) {1};
-		\node[cell] at (3,-2) {1};
-		\node[cell] at (4,-2) {2};
-		\node[cell] at (5,-2) {2};
-		\node[cell] at (0,-3) {0};
-		\node[cell] at (1,-3) {1};
-		\node[cell] at (2,-3) {1};
-		\node[cell] at (3,-3) {2};
-		\node[cell] at (4,-3) {2};
-		\node[cell] at (5,-3) {2};
+				\node[cell] at (0,0) {0};
+				\node[cell] at (1,0) {0};
+				\node[cell] at (2,0) {0};
+				\node[cell] at (3,0) {0};
+				\node[cell] at (4,0) {0};
+				\node[cell] at (5,0) {0};
+				\node[cell] at (0,-1) {0};
+				\node[cell] at (1,-1) {0};
+				\node[cell] at (2,-1) {1};
+				\node[cell] at (3,-1) {1};
+				\node[cell] at (4,-1) {1};
+				\node[cell] at (5,-1) {1};
+				\node[cell] at (0,-2) {0};
+				\node[cell] at (1,-2) {1};
+				\node[cell] at (2,-2) {1};
+				\node[cell] at (3,-2) {1};
+				\node[cell] at (4,-2) {2};
+				\node[cell] at (5,-2) {2};
+				\node[cell] at (0,-3) {0};
+				\node[cell] at (1,-3) {1};
+				\node[cell] at (2,-3) {1};
+				\node[cell] at (3,-3) {2};
+				\node[cell] at (4,-3) {2};
+				\node[cell] at (5,-3) {2};
 				% dependencies of cell (C, C)
 				\node[cell, fill=orange!40] at (3,-3) {2};
 				\node[cell, fill=blue!15] at (2,-2) {1};
@@ -2606,8 +2607,8 @@ ld = sum(fetch.(ts))
 			\[
 				L_{ij} =
 				\begin{cases}
-					L_{i-1,j-1} + 1                    & x_i = y_j \\
-					\max(L_{i-1,j},\, L_{i,j-1})       & \text{otherwise}
+					L_{i-1,j-1} + 1              & x_i = y_j        \\
+					\max(L_{i-1,j},\, L_{i,j-1}) & \text{otherwise}
 				\end{cases}
 			\]
 			\begin{itemize}
@@ -2627,31 +2628,31 @@ ld = sum(fetch.(ts))
 		\centering
 		\begin{tikzpicture}[x=0.6cm, y=0.6cm, font=\footnotesize,
 				tile/.style={draw=gray!70, minimum size=0.6cm, inner sep=0pt}]
-				\node[tile, fill=orange!12] at (0,0) {1};
-				\node[tile, fill=orange!22] at (1,0) {2};
-				\node[tile, fill=orange!32] at (2,0) {3};
-				\node[tile, fill=orange!42] at (3,0) {4};
-				\node[tile, fill=orange!52] at (4,0) {5};
-				\node[tile, fill=orange!22] at (0,-1) {2};
-				\node[tile, fill=orange!32] at (1,-1) {3};
-				\node[tile, fill=orange!42] at (2,-1) {4};
-				\node[tile, fill=orange!52] at (3,-1) {5};
-				\node[tile, fill=orange!62] at (4,-1) {6};
-				\node[tile, fill=orange!32] at (0,-2) {3};
-				\node[tile, fill=orange!42] at (1,-2) {4};
-				\node[tile, fill=orange!52] at (2,-2) {5};
-				\node[tile, fill=orange!62] at (3,-2) {6};
-				\node[tile, fill=orange!72] at (4,-2) {7};
-				\node[tile, fill=orange!42] at (0,-3) {4};
-				\node[tile, fill=orange!52] at (1,-3) {5};
-				\node[tile, fill=orange!62] at (2,-3) {6};
-				\node[tile, fill=orange!72] at (3,-3) {7};
-				\node[tile, fill=orange!82] at (4,-3) {8};
-				\node[tile, fill=orange!52] at (0,-4) {5};
-				\node[tile, fill=orange!62] at (1,-4) {6};
-				\node[tile, fill=orange!72] at (2,-4) {7};
-				\node[tile, fill=orange!82] at (3,-4) {8};
-				\node[tile, fill=orange!92] at (4,-4) {9};
+			\node[tile, fill=orange!12] at (0,0) {1};
+			\node[tile, fill=orange!22] at (1,0) {2};
+			\node[tile, fill=orange!32] at (2,0) {3};
+			\node[tile, fill=orange!42] at (3,0) {4};
+			\node[tile, fill=orange!52] at (4,0) {5};
+			\node[tile, fill=orange!22] at (0,-1) {2};
+			\node[tile, fill=orange!32] at (1,-1) {3};
+			\node[tile, fill=orange!42] at (2,-1) {4};
+			\node[tile, fill=orange!52] at (3,-1) {5};
+			\node[tile, fill=orange!62] at (4,-1) {6};
+			\node[tile, fill=orange!32] at (0,-2) {3};
+			\node[tile, fill=orange!42] at (1,-2) {4};
+			\node[tile, fill=orange!52] at (2,-2) {5};
+			\node[tile, fill=orange!62] at (3,-2) {6};
+			\node[tile, fill=orange!72] at (4,-2) {7};
+			\node[tile, fill=orange!42] at (0,-3) {4};
+			\node[tile, fill=orange!52] at (1,-3) {5};
+			\node[tile, fill=orange!62] at (2,-3) {6};
+			\node[tile, fill=orange!72] at (3,-3) {7};
+			\node[tile, fill=orange!82] at (4,-3) {8};
+			\node[tile, fill=orange!52] at (0,-4) {5};
+			\node[tile, fill=orange!62] at (1,-4) {6};
+			\node[tile, fill=orange!72] at (2,-4) {7};
+			\node[tile, fill=orange!82] at (3,-4) {8};
+			\node[tile, fill=orange!92] at (4,-4) {9};
 		\end{tikzpicture}
 
 		\smallskip
@@ -2733,11 +2734,11 @@ fetch(@dspawn backtrack(@R(L), x, y))
 	\medskip
 	\centering
 	\begin{tabular}{lccc}
-		                         & \texttt{-t 1} & \texttt{-t 4} & \texttt{-t 8} \\
+		                              & \texttt{-t 1} & \texttt{-t 4} & \texttt{-t 8} \\
 		\hline
-		sequential               & 0.10 s        & 0.10 s        & 0.10 s        \\
-		tasks by hand (\texttt{wait}) & 0.12 s   & 0.042 s       & 0.029 s       \\
-		\DFT                     & 0.12 s        & 0.043 s       & 0.033 s       \\
+		sequential                    & 0.10 s        & 0.10 s        & 0.10 s        \\
+		tasks by hand (\texttt{wait}) & 0.12 s        & 0.042 s       & 0.029 s       \\
+		\DFT                          & 0.12 s        & 0.043 s       & 0.033 s       \\
 	\end{tabular}
 
 	\vfill

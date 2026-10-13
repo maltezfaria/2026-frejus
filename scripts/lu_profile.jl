@@ -17,13 +17,15 @@ categories = ["lu", "ldiv", "rdiv", "mul"]
 # small problem: a DAG you can read
 A = rand(1000, 1000) + 1000I
 lu_dft!(tiles(copy(A), 250)) # compile
-log_small = DFT.@log lu_dft!(tiles(copy(A), 250))
+T = tiles(copy(A), 250) # outside @log: the copy is not part of the trace
+log_small = DFT.@log lu_dft!(T)
 DFT.savedag(joinpath(outdir, "lu-dag.svg"), GraphViz.Graph(log_small))
 
 # the real problem: summary and trace
 A = rand(4000, 4000) + 4000I
 lu_dft!(tiles(copy(A), 250)) # warm up
-log_info = DFT.@log lu_dft!(tiles(copy(A), 250))
+T = tiles(copy(A), 250)
+log_info = DFT.@log lu_dft!(T)
 DFT.describe(log_info; categories)
 fig = plot(log_info; categories)
 save(joinpath(outdir, "lu-trace.png"), fig)
