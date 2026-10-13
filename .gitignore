@@ -1,0 +1,7 @@
+talk/build/
+talk/_minted*/
+Manifest.toml
+.DS_Store
+talk/auto/
+.vscode/
+/figures/

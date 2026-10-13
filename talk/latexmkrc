@@ -1,0 +1,13 @@
+# Build in build/, then copy the PDF next to this file.
+$out_dir = 'build';
+
+# Live-demo links: absolute file:// URLs to this checkout (Skim follows them).
+# For a PDF to share, build with relative run: links instead:
+#   DEMO_LINKS=relative latexmk -pdf -shell-escape frejus_2026.tex
+use Cwd 'abs_path';
+if (($ENV{DEMO_LINKS} // '') ne 'relative') {
+    my $root = abs_path('..');
+    $pre_tex_code = "\\def\\demoroot{file://$root/}";
+    $pdflatex = 'pdflatex %O %P';
+}
+END { system('cp build/frejus_2026.pdf frejus_2026.pdf') if -e 'build/frejus_2026.pdf'; }
